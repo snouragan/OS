@@ -6,7 +6,8 @@ CFLAGS=-ffreestanding -O2 -std=gnu99 -Iinclude
 AFLAGS=
 LFLAGS=-ffreestanding -nostdlib -lgcc -O2
 
-FILES=boot.o kernel.o io.o
+FILES=boot.o kernel.o io.o keyboard.o
+HEADERS=include/keyboard.h include/io.h
 OSNAME=myos
 
 .PHONY: all
@@ -18,7 +19,7 @@ $(OSNAME).iso: $(OSNAME).bin grub.cfg
 	cp $(OSNAME).bin isodir/boot; \
 	grub-mkrescue -o $(OSNAME).iso isodir
 
-$(OSNAME).bin: $(FILES) linker.ld
+$(OSNAME).bin: $(FILES) $(HEADERS) linker.ld
 	$(LD) $(LFLAGS) -T linker.ld -o $(OSNAME).bin $(FILES)
 
 %.o: %.S

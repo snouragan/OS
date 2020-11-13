@@ -83,28 +83,7 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 	const size_t index = y * VGA_WIDTH + x;
 	terminal_buffer[index] = vga_entry(c, color);
 }
- 
-void terminal_putchar(char c) 
-{
-	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
-	if(c=='\n') {
-		terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
-		++terminal_row;
-		terminal_column = -1;
-	}
-	if (++terminal_column == VGA_WIDTH) {
-		terminal_column = 0;
-		if (++terminal_row == VGA_HEIGHT)
-			terminal_row = 0;
-	}
-	update_cursor(terminal_column, terminal_row);
-}
- 
-void terminal_write(const char* data, size_t size) 
-{
-	for (size_t i = 0; i < size; i++)
-		terminal_putchar(data[i]);
-}
+
 void update_cursor(int x, int y)
 {
 	uint16_t pos = y * VGA_WIDTH + x;
@@ -113,7 +92,33 @@ void update_cursor(int x, int y)
 	outb(0x3D5, (uint8_t) (pos & 0xFF));
 	outb(0x3D4, 0x0E);
 	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
-} 
+}
+
+void terminal_putchar(char c) 
+{
+	if (c != '\n') {
+		terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+	}
+	else {
+		++terminal_row;
+		terminal_column = -1;
+	}
+
+	if (++terminal_column == VGA_WIDTH) {
+		terminal_column = 0;
+		++terminal_row;
+	}
+	if (terminal_row == VGA_HEIGHT)
+		terminal_row = 0;
+	update_cursor(terminal_column, terminal_row + 1);
+}
+ 
+void terminal_write(const char* data, size_t size) 
+{
+	for (size_t i = 0; i < size; i++)
+		terminal_putchar(data[i]);
+}
+ 
 void terminal_writestring(const char* data) 
 {
 	terminal_write(data, strlen(data));
@@ -123,27 +128,23 @@ void xprint(unsigned long long x, int biti)
 {
 	for (int i = biti - 1; i >= 0; i--)
 		terminal_putchar('0' + ((x >> i) & 1));
+	terminal_putchar('\n');
 }
-unsigned int read_keyboard(){
-	if(inb(0x64)&1==1)
-		return inb(0x60);
-	return -1;
-	
-}
+
+
 #define xprint(X) xprint(X, 8)
 
 void kernel_main(void) 
 {
 	/* Initialize terminal interface */
 	terminal_initialize();
-	outb(0x60,0xFF);
-	outb(0x64,0xAE);
-	for(;;){
-	unsigned int ret;
-	while((ret=read_keyboard())==-1)
-		;
-	xprint(read_keyboard());
+	keyboard_init();
 
-	terminal_writestring("\n");
+
+	for(;;){
+		unsigned int ret;
+		//while ((ret=keyboard_key())==-1)
+		//	;
+		xprint(inb(0x60));
 	}
 }
