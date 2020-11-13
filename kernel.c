@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-
+#include <keyboard.h>
 #include <io.h>
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
@@ -124,37 +124,26 @@ void xprint(unsigned long long x, int biti)
 	for (int i = biti - 1; i >= 0; i--)
 		terminal_putchar('0' + ((x >> i) & 1));
 }
-
+unsigned int read_keyboard(){
+	if(inb(0x64)&1==1)
+		return inb(0x60);
+	return -1;
+	
+}
 #define xprint(X) xprint(X, 8)
 
 void kernel_main(void) 
 {
 	/* Initialize terminal interface */
 	terminal_initialize();
-	
-	terminal_writestring("CCB: ");
-	outb(0x64, 0x20);
-	xprint(inb(0x60));
+	outb(0x60,0xFF);
+	outb(0x64,0xAE);
+	for(;;){
+	unsigned int ret;
+	while((ret=read_keyboard())==-1)
+		;
+	xprint(read_keyboard());
 
-	terminal_writestring("\nTS0: ");
-	outb(0x64, 0xAA);
-	xprint(inb(0x60));
-
-	terminal_writestring("\nTS1: ");
-	outb(0x64, 0xAB);
-	xprint(inb(0x60));
-
-	terminal_writestring("\nTS2: ");
-	outb(0x64, 0xA9);
-	xprint(inb(0x60));
-
-	terminal_writestring("\nCIP: ");
-	outb(0x64, 0xC0);
-	xprint(inb(0x60));
-
-	terminal_writestring("\nCOP: ");
-	outb(0x64, 0xD0);
-	xprint(inb(0x60));
-	
 	terminal_writestring("\n");
+	}
 }
