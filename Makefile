@@ -2,11 +2,11 @@ CC=i686-elf-gcc
 AS=i686-elf-as
 LD=i686-elf-gcc
 
-CFLAGS=-ffreestanding -O2 -std=gnu99
+CFLAGS=-ffreestanding -O2 -std=gnu99 -Iinclude
 AFLAGS=
 LFLAGS=-ffreestanding -nostdlib -lgcc -O2
 
-FILES=boot.o kernel.o
+FILES=boot.o kernel.o io.o
 OSNAME=myos
 
 .PHONY: all
@@ -39,5 +39,3 @@ unmake: clean
 clean:
 	@if [ -d isodir ]; then rm -rf isodir; fi
 	@find . -regextype posix-extended -regex '(.*\.s)|(.*\.o)' -delete
-
-

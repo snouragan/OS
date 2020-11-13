@@ -1,8 +1,9 @@
-
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
- 
+
+#include <io.h>
+
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -109,12 +110,42 @@ void terminal_writestring(const char* data)
 	terminal_write(data, strlen(data));
 }
  
+void xprint(unsigned long long x, int biti)
+{
+	for (int i = biti - 1; i >= 0; i--)
+		terminal_putchar('0' + ((x >> i) & 1));
+}
+
+#define xprint(X) xprint(X, 8)
+
 void kernel_main(void) 
 {
 	/* Initialize terminal interface */
 	terminal_initialize();
-	terminal_putentryat('d', VGA_COLOR_LIGHT_BLUE, 20,20);
-	terminal_setcolor(VGA_COLOR_MAGENTA);
-	terminal_writestring("alo, salut\nalo");
-}
+	
+	terminal_writestring("CCB: ");
+	outb(0x64, 0x20);
+	xprint(inb(0x60));
 
+	terminal_writestring("\nTS0: ");
+	outb(0x64, 0xAA);
+	xprint(inb(0x60));
+
+	terminal_writestring("\nTS1: ");
+	outb(0x64, 0xAB);
+	xprint(inb(0x60));
+
+	terminal_writestring("\nTS2: ");
+	outb(0x64, 0xA9);
+	xprint(inb(0x60));
+
+	terminal_writestring("\nCIP: ");
+	outb(0x64, 0xC0);
+	xprint(inb(0x60));
+
+	terminal_writestring("\nCOP: ");
+	outb(0x64, 0xD0);
+	xprint(inb(0x60));
+
+	terminal_writestring("\n");
+}
