@@ -97,6 +97,7 @@ void terminal_putchar(char c)
 		if (++terminal_row == VGA_HEIGHT)
 			terminal_row = 0;
 	}
+	update_cursor(terminal_column, terminal_row);
 }
  
 void terminal_write(const char* data, size_t size) 
@@ -104,7 +105,15 @@ void terminal_write(const char* data, size_t size)
 	for (size_t i = 0; i < size; i++)
 		terminal_putchar(data[i]);
 }
+void update_cursor(int x, int y)
+{
+	uint16_t pos = y * VGA_WIDTH + x;
  
+	outb(0x3D4, 0x0F);
+	outb(0x3D5, (uint8_t) (pos & 0xFF));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+} 
 void terminal_writestring(const char* data) 
 {
 	terminal_write(data, strlen(data));
@@ -146,6 +155,6 @@ void kernel_main(void)
 	terminal_writestring("\nCOP: ");
 	outb(0x64, 0xD0);
 	xprint(inb(0x60));
-
+	
 	terminal_writestring("\n");
 }
