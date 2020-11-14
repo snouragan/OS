@@ -147,10 +147,4 @@ uint8_t keyboard_poll();
 
 #define QEMU_NU_ESTE_EMULATORUL_MEU_PREFERAT
 
-#ifdef QEMU_NU_ESTE_EMULATORUL_MEU_PREFEREAT
-static inline
-uint8_t keyboard_key() { return keyboard_poke(); }
-#else
-static inline
-uint8_t keyboard_key() { return keyboard_poll(); }
-#endif
+uint8_t keyboard_key();

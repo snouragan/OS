@@ -140,11 +140,8 @@ void kernel_main(void)
 	terminal_initialize();
 	keyboard_init();
 
-
-	for(;;){
-		unsigned int ret;
-		//while ((ret=keyboard_key())==-1)
-		//	;
+	for (;;) {
+		keyboard_key();
 		xprint(inb(0x60));
 	}
 }

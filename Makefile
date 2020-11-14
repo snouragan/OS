@@ -2,7 +2,7 @@ CC=i686-elf-gcc
 AS=i686-elf-as
 LD=i686-elf-gcc
 
-CFLAGS=-ffreestanding -O2 -std=gnu99 -Iinclude
+CFLAGS=-ffreestanding -O2 -std=gnu99 -Iinclude -Wall -Wextra -Werror
 AFLAGS=
 LFLAGS=-ffreestanding -nostdlib -lgcc -O2
 
