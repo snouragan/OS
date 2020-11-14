@@ -37,15 +37,24 @@ uint8_t keyboard_poll()
 	return 255;
 }
 
+
+// Un jeg, dar merge
 uint8_t keyboard_key()
 {
-	//uint8_t ret;
+	uint8_t ret;
+#ifdef QEMU_NU_ESTE_EMULATORUL_MEU_PREFERAT
+	static uint8_t last;
+BEGIN:
+#endif
 
-	//while ((ret = keyboard_poll()) != 255)
+	while ((ret = keyboard_poll()) != 255)
 		;
 
 #ifdef QEMU_NU_ESTE_EMULATORUL_MEU_PREFERAT
-	return inb(0x60);
+	if ((ret = inb(0x60)) == last)
+		goto BEGIN;
+	
+	return last = ret;
 #else
 	return ret;
 #endif
