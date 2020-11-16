@@ -96,13 +96,18 @@ void update_cursor(int x, int y)
 
 void terminal_putchar(char c) 
 {
-	if (c != '\n') {
-		terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+	if (c == '\t') {
+		for(int i=0;i<4;i++)
+		terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
 	}
-	else {
+	else if(c == '\t') {
 		++terminal_row;
 		terminal_column = -1;
 	}
+	else {
+		terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+	}
+	
 
 	if (++terminal_column == VGA_WIDTH) {
 		terminal_column = 0;
@@ -110,7 +115,7 @@ void terminal_putchar(char c)
 	}
 	if (terminal_row == VGA_HEIGHT)
 		terminal_row = 0;
-	update_cursor(terminal_column, terminal_row + 1);
+	update_cursor(terminal_column, terminal_row);
 }
  
 void terminal_write(const char* data, size_t size) 
@@ -140,8 +145,9 @@ void kernel_main(void)
 	terminal_initialize();
 	keyboard_init();
 
-	for (;;) {
-		keyboard_key();
-		xprint(inb(0x60));
-	}
+	for(;;)
+	{
+		terminal_putchar(keyboard_showKey());
+
+}
 }

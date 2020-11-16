@@ -3,7 +3,57 @@
 #include <io.h>
 #include <keyboard.h>
 
-
+char K[256] = {
+        [KEY_1_PRESSED] = '1',
+        [KEY_2_PRESSED] = '2',
+        [KEY_3_PRESSED] = '3',
+        [KEY_4_PRESSED] = '4',
+        [KEY_5_PRESSED] = '5',
+        [KEY_6_PRESSED] = '6',
+        [KEY_7_PRESSED] = '7',
+        [KEY_8_PRESSED] = '8',
+        [KEY_9_PRESSED] = '9',
+        [KEY_0_PRESSED] = '0',
+        [KEY_MINUS_PRESSED] = '-',
+        [KEY_EQUALS_PRESSED] = '=',
+	[KEY_TAB_PRESSED] = '\t',
+        [KEY_Q_PRESSED] = 'q',
+        [KEY_W_PRESSED] = 'w',
+        [KEY_E_PRESSED] = 'e',
+        [KEY_R_PRESSED] = 'r',
+        [KEY_T_PRESSED] = 't',
+        [KEY_Y_PRESSED] = 'y',
+        [KEY_U_PRESSED] = 'u',
+        [KEY_I_PRESSED] = 'i',
+        [KEY_O_PRESSED] = 'o',
+        [KEY_P_PRESSED] = 'p',
+        [KEY_LBRACKET_PRESSED] = '[',
+        [KEY_RBRACKET_PRESSED] = ']',
+        [KEY_ENTER_PRESSED] = '\n',
+        [KEY_A_PRESSED] = 'a',
+        [KEY_S_PRESSED] = 's',
+        [KEY_D_PRESSED] = 'd',
+        [KEY_F_PRESSED] = 'f',
+        [KEY_G_PRESSED] = 'g',
+        [KEY_H_PRESSED] = 'h',
+        [KEY_J_PRESSED] = 'j',
+        [KEY_K_PRESSED] = 'k',
+        [KEY_L_PRESSED] = 'l',
+        [KEY_SEMICOLON_PRESSED] = ';',
+        [KEY_APOSTROPHE_PRESSED] =  '\'',
+        [KEY_BACKSLASH_PRESSED] = '\\',
+        [KEY_Z_PRESSED] = 'z',
+        [KEY_X_PRESSED] = 'x',
+        [KEY_C_PRESSED] = 'c',
+        [KEY_V_PRESSED] = 'v',
+        [KEY_B_PRESSED] = 'b',
+        [KEY_N_PRESSED] = 'n',
+        [KEY_M_PRESSED] = 'm',
+        [KEY_COMMA_PRESSED] = ',',
+        [KEY_DOT_PRESSED] = '.',
+        [KEY_SLASH_PRESSED] = '/',
+        [KEY_SPACE_PRESSED] = ' ',
+};
 void keyboard_init()
 {
 	/* TODO: verifica ACK */
@@ -59,3 +109,8 @@ BEGIN:
 	return ret;
 #endif
 }
+char keyboard_showKey()
+{
+	if(keyboard_key() >= 0x81) keyboard_showKey();
+	return K[keyboard_key()];
+} 

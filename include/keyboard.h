@@ -1,4 +1,4 @@
-enum {
+enum keys {
 	KEY_ESC_PRESSED = 0x01,
 	KEY_1_PRESSED = 0x02,
 	KEY_2_PRESSED = 0x03,
@@ -141,6 +141,7 @@ enum {
 
 };
 
+
 void keyboard_init();
 uint8_t keyboard_poke();
 uint8_t keyboard_poll();
@@ -148,3 +149,4 @@ uint8_t keyboard_poll();
 #define QEMU_NU_ESTE_EMULATORUL_MEU_PREFERAT
 
 uint8_t keyboard_key();
+char keyboard_showKey();
