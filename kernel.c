@@ -97,10 +97,9 @@ void update_cursor(int x, int y)
 void terminal_putchar(char c) 
 {
 	if (c == '\t') {
-		for(int i=0;i<4;i++)
-		terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
+		terminal_column = terminal_column + 4;
 	}
-	else if(c == '\t') {
+	else if(c == '\n') {
 		++terminal_row;
 		terminal_column = -1;
 	}
@@ -149,5 +148,5 @@ void kernel_main(void)
 	{
 		terminal_putchar(keyboard_showKey());
 
-}
+	}
 }

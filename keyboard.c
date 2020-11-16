@@ -111,6 +111,7 @@ BEGIN:
 }
 char keyboard_showKey()
 {
-	if(keyboard_key() >= 0x81) keyboard_showKey();
+	while(keyboard_key() >= 0x81 || keyboard_key() == 0) 
+		;
 	return K[keyboard_key()];
 } 
