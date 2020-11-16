@@ -99,9 +99,14 @@ void terminal_putchar(char c)
 	if (c == '\t') {
 		terminal_column = terminal_column + 4;
 	}
-	else if(c == '\n') {
+	else if (c == '\n') {
 		++terminal_row;
 		terminal_column = -1;
+	}
+	else if (c == '\b') {
+		--terminal_column;
+		terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);   
+		--terminal_column;
 	}
 	else {
 		terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
@@ -143,10 +148,9 @@ void kernel_main(void)
 	/* Initialize terminal interface */
 	terminal_initialize();
 	keyboard_init();
-
+	terminal_writestring("abcd\b");
 	for(;;)
 	{
-		terminal_putchar(keyboard_showKey());
-
+		if(keyboard_showKey() != ' ')  terminal_putchar(keyboard_showKey());
 	}
 }

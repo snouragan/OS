@@ -16,6 +16,7 @@ char K[256] = {
         [KEY_0_PRESSED] = '0',
         [KEY_MINUS_PRESSED] = '-',
         [KEY_EQUALS_PRESSED] = '=',
+	[KEY_BACKSPACE_PRESSED] = '\b',
 	[KEY_TAB_PRESSED] = '\t',
         [KEY_Q_PRESSED] = 'q',
         [KEY_W_PRESSED] = 'w',
@@ -111,7 +112,5 @@ BEGIN:
 }
 char keyboard_showKey()
 {
-	while(keyboard_key() >= 0x81 || keyboard_key() == 0) 
-		;
 	return K[keyboard_key()];
 } 
