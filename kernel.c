@@ -132,7 +132,6 @@ void terminal_writestring(const char* data)
 {
 	terminal_write(data, strlen(data));
 }
- 
 void xprint(unsigned long long x, int biti)
 {
 	for (int i = biti - 1; i >= 0; i--)
@@ -148,9 +147,16 @@ void kernel_main(void)
 	/* Initialize terminal interface */
 	terminal_initialize();
 	keyboard_init();
-	terminal_writestring("abcd\b");
 	for(;;)
 	{
-		if(keyboard_showKey() != ' ')  terminal_putchar(keyboard_showKey());
+		char key;
+		key = keyboard_showKey();
+		if(key != 0x00)  
+		{
+			terminal_putchar(key);
+			//terminal_writestring("-");
+			//xprint(key);
+			//terminal_writestring("\n");
+		}
 	}
 }
