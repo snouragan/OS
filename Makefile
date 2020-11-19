@@ -6,8 +6,8 @@ CFLAGS=-ffreestanding -O2 -std=gnu99 -Iinclude -Wall -Wextra -Werror
 AFLAGS=
 LFLAGS=-ffreestanding -nostdlib -lgcc -O2
 
-FILES=boot.o kernel.o io.o keyboard.o
-HEADERS=include/keyboard.h include/io.h
+FILES=boot.o kernel.o io.o keyboard.o string.o
+HEADERS=include/keyboard.h include/io.h include/string.h
 OSNAME=myos
 
 .PHONY: all
