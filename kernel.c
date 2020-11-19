@@ -132,6 +132,37 @@ void terminal_writestring(const char* data)
 {
 	terminal_write(data, strlen(data));
 }
+void keyword_function(const char* keyword, uint8_t size)
+{
+	char taci[50];
+	taci[0]='t';
+	taci[1]='a';
+	for (size_t i = 0; i < size; i++)
+                {       
+                      terminal_putchar(keyword[i]);
+		}
+	if(size != 0) if(keyword[0] == taci[0] && keyword[1] == taci[1]) terminal_write(keyword, strlen(keyword));
+}
+void terminal_readstring(char c)
+{
+	static uint8_t length = 0;
+	static char keyword[50];
+	keyword[0] = c;
+	if(c == ' ' || c == '\t' || c == '\n'){
+		keyword_function(keyword, length);
+		for (size_t i = 0; i < length; i++)
+		{	
+			//terminal_putchar(keyword[i]);
+			keyword[i] = ' ';
+		}
+			length = 0;
+	}
+	else{
+		keyword[length] = c;
+		//terminal_putchar(keyword[length]);
+		length++;
+	}
+}
 void xprint(unsigned long long x, int biti)
 {
 	for (int i = biti - 1; i >= 0; i--)
@@ -154,6 +185,8 @@ void kernel_main(void)
 		if(key != 0x00)  
 		{
 			terminal_putchar(key);
+			terminal_readstring(key);
+			//terminal_putchar(1);
 			//terminal_writestring("-");
 			//xprint(key);
 			//terminal_writestring("\n");
