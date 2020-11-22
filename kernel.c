@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <keyboard.h>
 #include <io.h>
+#include <string.h>
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -43,15 +44,7 @@ static inline uint16_t vga_entry(unsigned char uc, uint8_t color)
 {
 	return (uint16_t) uc | (uint16_t) color << 8;
 }
- 
-size_t strlen(const char* str) 
-{
-	size_t len = 0;
-	while (str[len])
-		len++;
-	return len;
-}
- 
+
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
  
@@ -178,6 +171,8 @@ void kernel_main(void)
 	/* Initialize terminal interface */
 	terminal_initialize();
 	keyboard_init();
+	//terminal_writestring(strrchr("abcdefghijkilmniopqrstuv", 'i'));
+	xprint(strcspn("abcdij1234", "abcdefghij"));
 	for(;;)
 	{
 		char key;
@@ -185,7 +180,7 @@ void kernel_main(void)
 		if(key != 0x00)  
 		{
 			terminal_putchar(key);
-			terminal_readstring(key);
+			//terminal_readstring(key);
 			//terminal_putchar(1);
 			//terminal_writestring("-");
 			//xprint(key);
