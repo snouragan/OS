@@ -62,7 +62,7 @@ char *strncpy(char *dst, const char *src, size_t size)
 		if (*src != '\0')
 			*dst++ = *src++;
 		else
-			*d++ = '\0;
+			*d++ = '\0';
 	}
 
 	return dst;
@@ -80,9 +80,9 @@ char *strcat(char *dst, const char *src)
 
 char *strncat(char *dst, const char *src, size_t size)
 {
-	size_t i, len= strlen (dst);
+	size_t i, len = strlen (dst);
 
-	for (size_t i = 0; i < size; i++) {
+	for (i = 0; i < size; i++) {
 		if (src[i] == '\0')
 			break;
 
@@ -98,7 +98,7 @@ char *strchr(const char *str, char c)
 {
 	for (;;) {
 		if (*str == c)
-			return str;
+			return (char *) str;
 
 		if (*str++ == '\0')
 			break;
@@ -107,13 +107,13 @@ char *strchr(const char *str, char c)
 	return NULL;
 }
 
-char *strrchr(cosnt char *str, char c)
+char *strrchr(const char *str, char c)
 {
 	const char *s = str + strlen(str);
 	
 	for (;;) {
 		if (*s == c)
-			return s;
+			return (char *) s;
 
 		if (--s < str)
 			break;
@@ -122,7 +122,7 @@ char *strrchr(cosnt char *str, char c)
 	return NULL;
 }
 
-size_t strspn(char *dst, char* src)
+size_t strspn(const char *dst, const char* src)
 {
 	size_t c = 0, c1;
 
@@ -154,4 +154,59 @@ size_t strcspn(const char *dst, const char* src)
 	}
 
 	return i;
+}
+
+char *strstr(const char *str1, const char *str2)
+{
+	while ((str1 = strchr(str1, str2[0]))) {
+		if (strncmp(str1, str2, strlen(str2)) == 0)
+			return (char *) str1;
+
+		str1++;
+	}
+
+	return NULL;
+}
+
+char *strpbrk(const char *str, const char *chars)
+{
+	size_t loc;
+
+	loc = strcspn(str, chars);
+
+	if (loc == strlen(str))
+		return NULL;
+
+	return (char *) str + loc;
+}
+
+char *strtok(char **str, const char *delim)
+{
+	char *v;
+	size_t loc, len = strlen(*str);
+
+	loc = strspn(*str, delim);
+
+	if (loc == len)
+		return NULL;
+
+	v = *str += loc;
+	loc = strcspn(*str, delim);
+
+	if (loc == strlen(v))
+		*str = "";
+	else
+		*str += loc + 1;
+
+	return v;
+}
+
+void *memset(void *dest, int ch, size_t count)
+{
+	unsigned char *dst = dest, c = ch;
+
+	for (size_t i = 0; i < count; i++)
+		*dst++ = c;
+
+	return dest;
 }
