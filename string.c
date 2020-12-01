@@ -62,7 +62,7 @@ char *strncpy(char *dst, const char *src, size_t size)
 		if (*src != '\0')
 			*dst++ = *src++;
 		else
-			*d++ = '\0;
+			*d++ = '\0';
 	}
 
 	return dst;
@@ -82,7 +82,7 @@ char *strncat(char *dst, const char *src, size_t size)
 {
 	size_t i, len= strlen (dst);
 
-	for (size_t i = 0; i < size; i++) {
+	for (i = 0; i < size; i++) {
 		if (src[i] == '\0')
 			break;
 
@@ -98,7 +98,7 @@ char *strchr(const char *str, char c)
 {
 	for (;;) {
 		if (*str == c)
-			return str;
+			return (char *) str;
 
 		if (*str++ == '\0')
 			break;
@@ -107,13 +107,13 @@ char *strchr(const char *str, char c)
 	return NULL;
 }
 
-char *strrchr(cosnt char *str, char c)
+char *strrchr(const char *str, char c)
 {
 	const char *s = str + strlen(str);
 	
 	for (;;) {
 		if (*s == c)
-			return s;
+			return (char *) s;
 
 		if (--s < str)
 			break;
@@ -122,7 +122,7 @@ char *strrchr(cosnt char *str, char c)
 	return NULL;
 }
 
-size_t strspn(char *dst, char* src)
+size_t strspn(const char *dst, const char* src)
 {
 	size_t c = 0, c1;
 
@@ -154,4 +154,60 @@ size_t strcspn(const char *dst, const char* src)
 	}
 
 	return i;
+}
+void* memcpy(void * dst, const void* src, size_t count)
+{
+	char *dstcpy = (char *) dst, *srccpy = (char *) src;
+	for(size_t i = 0; i < count; i++) {
+		*dstcpy++ = *srccpy++;
+	}
+	return dst;
+}
+void *memccpy(void *dst, const void * src, int c, size_t count)
+{
+	char *dstcpy = (char *) dst;
+        char *srccpy = (char *) src;
+	for(size_t i = 0; i < count; i++) {
+                *dstcpy++ = *srccpy++;
+		if(*dstcpy == c) return dst;
+        }
+	return NULL;
+}
+/*void *memmove(void *dst, const void *src, size_t count)
+{
+	char *str = (char *) src;
+	return dst;
+}*/
+int memcmp(const void* lhs, const void *rhs, size_t count)
+{
+	char *lhscopy = (char *) lhs;
+	char *rhscopy = (char *) rhs;
+	for(size_t i = 0; i < count; i++) {
+		if(*lhscopy++ > *rhscopy++)
+			return 1;
+		else if(*lhscopy < *rhscopy)
+			return -1;
+	}
+	return 0;
+}
+void *memchr(void * ptr, int ch, size_t count)
+{
+	char *ptrcopy = (char *) ptr;
+	for (size_t i = 0; i < count; i++) {
+                if (*ptrcopy == ch)
+                        return (char *) ptrcopy;
+        }
+        return NULL;
+}
+void *memset(void *dst, int ch, size_t count)
+{
+	char *dstcopy = (char *) dst;
+	for(size_t i = 0; i < count; i++)
+		*dstcopy++ = ch;
+	return dst;
+}
+char *strstr( const char* str, const char* substr )
+{
+	
+	return '\0';
 }

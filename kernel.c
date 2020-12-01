@@ -172,7 +172,7 @@ void kernel_main(void)
 	terminal_initialize();
 	keyboard_init();
 	//terminal_writestring(strrchr("abcdefghijkilmniopqrstuv", 'i'));
-	xprint(strcspn("abcdij1234", "abcdefghij"));
+	terminal_writestring(strstr("am fost acasa", "fost"));
 	for(;;)
 	{
 		char key;
