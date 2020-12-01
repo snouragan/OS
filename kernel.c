@@ -4,6 +4,7 @@
 #include <keyboard.h>
 #include <io.h>
 #include <string.h>
+#include <gdt.h>
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -166,13 +167,15 @@ void xprint(unsigned long long x, int biti)
 
 #define xprint(X) xprint(X, 8)
 
+extern struct gdt_entry gdt_entries[3];
+
 void kernel_main(void) 
 {
 	/* Initialize terminal interface */
 	terminal_initialize();
 	keyboard_init();
-	//terminal_writestring(strrchr("abcdefghijkilmniopqrstuv", 'i'));
-	terminal_writestring(strstr("am fost acasa", "fost"));
+	// init_gdt();
+	// idt_init();
 	for(;;)
 	{
 		char key;
@@ -187,4 +190,12 @@ void kernel_main(void)
 			//terminal_writestring("\n");
 		}
 	}
+}
+
+__attribute__((interrupt))
+void keyboard_interrupt(struct interrupt_frame *f)
+{
+	(void) f;
+
+	terminal_writestring("Am primit un interrupt de la tastatura\nCe tare!\n");
 }

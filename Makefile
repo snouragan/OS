@@ -2,12 +2,12 @@ CC=i686-elf-gcc
 AS=i686-elf-as
 LD=i686-elf-gcc
 
-CFLAGS=-ffreestanding -O2 -std=gnu99 -Iinclude -Wall -Wextra -Werror
+CFLAGS=-ffreestanding -O2 -std=gnu99 -Iinclude -Wall -Wextra -Werror -mgeneral-regs-only
 AFLAGS=
 LFLAGS=-ffreestanding -nostdlib -lgcc -O2
 
-FILES=boot.o kernel.o io.o keyboard.o string.o
-HEADERS=include/keyboard.h include/io.h include/string.h
+FILES=boot.o kernel.o io.o keyboard.o gdt.o lgdt.o string.o
+HEADERS=include/keyboard.h include/io.h include/string.h include/gdt.h
 OSNAME=myos
 
 .PHONY: all
