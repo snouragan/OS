@@ -1,6 +1,6 @@
-CC=i686-elf-gcc
-AS=i686-elf-as
-LD=i686-elf-gcc
+CC=i686-linux-musl-gcc
+AS=i686-linux-musl-as
+LD=i686-linux-musl-gcc
 
 CFLAGS=-ffreestanding -O2 -std=gnu99 -Iinclude -Wall -Wextra -Werror -mgeneral-regs-only
 AFLAGS=
