@@ -1,4 +1,4 @@
-CioataOS
+OS
 ========
 
 Sistem de operare, sau ceva.
