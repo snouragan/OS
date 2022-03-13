@@ -1,4 +1,4 @@
 OS
 ========
 
-Sistem de operare, sau ceva.
+Sistem de operare simplu.
