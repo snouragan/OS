@@ -1,3 +1,8 @@
+#ifndef KEYBOARD_H
+#define KEYBOARD_H
+
+#include <libc.h>
+
 enum keys {
 	KEY_ESC_PRESSED = 0x01,
 	KEY_1_PRESSED = 0x02,
@@ -155,3 +160,5 @@ uint8_t keyboard_poll();
 
 uint8_t keyboard_key();
 char keyboard_showKey();
+
+#endif

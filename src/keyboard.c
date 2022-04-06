@@ -1,7 +1,7 @@
-#include <stdint.h>
-#include <io.h>
 #include <keyboard.h>
-#include <stdbool.h>
+
+#include <libc.h>
+#include <i686.h>
 
 char K[256] = {
         [KEY_1_PRESSED] = '1',

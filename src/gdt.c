@@ -1,6 +1,5 @@
-#include <stdint.h>
-#include <gdt.h>
-#include <io.h>
+#include <libc.h>
+#include <i686.h>
 
 struct gdt_entry gdt_entries[3];
 
@@ -26,7 +25,7 @@ void init_gdt()
 	GDT_ENTRY_PUT_LIMIT(gdt_entries[2], 0xFFFFFFFF);
 	GDT_ENTRY_PUT_BASE(gdt_entries[2], 0);
 
-	lgdt((uint32_t) gdt_entries);
+	lgdt(((uint32_t) &gdt));
 }
 
 static void pic_init()
@@ -77,14 +76,16 @@ struct idt idt = {
 
 void idt_init()
 {
-	pic_init();
 
 	idt_entries[0x21] = (struct idt_entry) {
 		.zero = 0,
-		.attr = IDT_ATR_PR | IDT_ATR_RING0 | IDT_ATR_TRAP32,
+		.attr = IDT_ATR_PR | IDT_ATR_RING0 | IDT_ATR_TRAP32 /*0x8E*/, // temp
 		.selector = 2 << 3,
 	};
 	IDT_ENTRY_PUT_OFFSET(idt_entries[0x21], (uint32_t) keyboard_interrupt);
 
 	lidt((uint32_t) &idt);
+
+	pic_init();
+
 }

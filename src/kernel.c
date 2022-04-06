@@ -1,11 +1,8 @@
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
+#include <libc.h>
+#include <i686.h>
 #include <keyboard.h>
-#include <io.h>
-#include <string.h>
-#include <gdt.h>
 #include <terminal.h>
+
 
 #define xprint(X) xprint(X, 8)
 
@@ -30,17 +27,25 @@ void showChars(void)
 
 }
 
+volatile int i = 0;
+
 void kernel_main(void) 
 {
 	/* Initialize terminal interface */
 	terminal_initialize();
 	keyboard_init();
-	// init_gdt();
-	// idt_init();
+	/*init_gdt();
+	idt_init();*/
+
+	//int27();
 	for(;;)
 	{
-		//showBytes();
+		
 		showChars();
+		/*if (i == 0)
+			terminal_writestring("i = 0");
+		else
+			terminal_writestring("seex");*/
 	}
 }
 
@@ -49,5 +54,7 @@ void keyboard_interrupt(struct interrupt_frame *f)
 {
 	(void) f;
 
-	terminal_writestring("Am primit un interrupt de la tastatura\nCe tare!\n");
+	//terminal_writestring("Am primit un interrupt de la tastatura\nCe tare!\n");
+
+	i = 1;
 }

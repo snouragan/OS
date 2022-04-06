@@ -1,4 +1,4 @@
-#include <string.h>
+#include <libc.h>
 
 size_t strlen(const char *str) 
 {
@@ -155,6 +155,7 @@ size_t strcspn(const char *dst, const char* src)
 
 	return i;
 }
+
 void* memcpy(void * dst, const void* src, size_t count)
 {
 	char *dstcpy = (char *) dst, *srccpy = (char *) src;
@@ -164,6 +165,7 @@ void* memcpy(void * dst, const void* src, size_t count)
 	
 	return dst;
 }
+
 void *memccpy(void *dst, const void * src, int c, size_t count)
 {
 	char *dstcpy = (char *) dst;
@@ -177,6 +179,7 @@ void *memccpy(void *dst, const void * src, int c, size_t count)
 
 	return NULL;
 }
+
 int memcmp(const void* lhs, const void *rhs, size_t count)
 {
 	char *lhscopy = (char *) lhs;
@@ -193,6 +196,7 @@ int memcmp(const void* lhs, const void *rhs, size_t count)
 
 	return 0;
 }
+
 void *memchr(void * ptr, int ch, size_t count)
 {
 	char *ptrcopy = (char *) ptr;
@@ -205,6 +209,7 @@ void *memchr(void * ptr, int ch, size_t count)
         
 	return NULL;
 }
+
 char *strstr(const char *str1, const char *str2)
 {
 	while ((str1 = strchr(str1, str2[0]))) {

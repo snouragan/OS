@@ -1,6 +1,7 @@
 #include <terminal.h>
-#include <io.h>
-#include <string.h>
+
+#include <libc.h>
+#include <i686.h>
 
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;

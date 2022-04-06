@@ -1,4 +1,14 @@
+#ifndef LIBC_H
+#define LIBC_H
+
+#include <limits.h>
+#include <stdarg.h>
+#include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
+
+// string.h
+
 size_t strlen(const char *);
 size_t strcmp(const char *, const char *);
 size_t strncmp(const char *, const char *, size_t);
@@ -17,3 +27,5 @@ int memcmp(const void *, const void *, size_t);
 void *memchr(void *, int, size_t);
 void *memset(void *, int, size_t);
 char *strstr(const char *, const char *);
+
+#endif

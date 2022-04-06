@@ -1,10 +1,28 @@
-__attribute__((__packed__))
+#ifndef GDT_H
+#define GDT_H
+
+#include <libc.h>
+
+__attribute__((fastcall))
+uint8_t inb(unsigned int port);
+__attribute__((fastcall))
+uint16_t inw(unsigned int port);
+__attribute__((fastcall))
+uint32_t inl(unsigned int port);
+
+__attribute__((fastcall))
+void outb(unsigned int port, uint8_t data);
+__attribute__((fastcall))
+void outw(unsigned int port, uint16_t data);
+__attribute__((fastcall))
+void outl(unsigned int port, uint32_t data);
+
 struct gdt {
 	uint16_t size;
 	uint32_t address;
-};
+} __attribute__((packed));
 
-__attribute__((__packed__))
+
 struct gdt_entry {
 	uint16_t limit_1;
 	uint16_t base_1;
@@ -13,7 +31,7 @@ struct gdt_entry {
 	unsigned int limit_2 : 4;
 	unsigned int flags : 4;
 	uint8_t base_3;
-};
+} __attribute__((packed));
 
 enum {
 	GDT_ACC_RW = 0x02,
@@ -49,32 +67,29 @@ __attribute__((fastcall))
 void lgdt(uint32_t location);
 void init_gdt();
 
-__attribute__((packed))
 struct interrupt_frame {
 	uint16_t ip;
 	uint16_t cs;
 	uint16_t flags;
 	uint16_t sp;
 	uint16_t ss;
-};
+} __attribute__((packed));
 
 __attribute__((interrupt))
 void keyboard_interrupt(struct interrupt_frame*);
 
-__attribute__((__packed__))
 struct idt {
 	uint16_t size;
 	uint32_t address;
-};
+} __attribute__((packed));
 
-__attribute__((__packed__))
 struct idt_entry {
 	uint16_t offset_1;
 	uint16_t selector;
 	uint8_t zero;
 	uint8_t attr;
 	uint16_t offset_2;
-};
+} __attribute__((packed));
 
 enum {
 	IDT_ATR_PR = 0x80,
@@ -104,3 +119,8 @@ enum {
 __attribute__((fastcall))
 void lidt(uint32_t location);
 void idt_init();
+
+__attribute__((fastcall))
+void int27(void);
+
+#endif
